@@ -1,0 +1,48 @@
+#deepreader-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 320px;
+    height: 100%;
+    background: #1e1e1e;
+    color: #f0f0f0;
+    border-left: 2px solid #444;
+    box-shadow: -3px 0 6px rgba(0,0,0,0.4);
+    font-family: Arial, sans-serif;
+    padding: 10px;
+    z-index: 999999;
+    overflow-y: auto;
+}
+
+#deepreader-sidebar h2 {
+    margin: 0;
+    font-size: 18px;
+    color: #ffd369;
+}
+
+.dr-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#dr-close {
+    background: none;
+    border: none;
+    color: #ff6666;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.dr-section {
+    margin-top: 15px;
+    padding: 10px;
+    background: #2a2a2a;
+    border-radius: 8px;
+}
+
+.dr-section h3 {
+    margin-top: 0;
+    color: #80dfff;
+    font-size: 15px;
+}
