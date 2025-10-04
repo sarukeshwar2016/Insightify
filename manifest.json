@@ -2,10 +2,10 @@
   "manifest_version": 3,
   "name": "DeepReader",
   "version": "1.0",
-  "description": "Sidebar that analyzes selected text using Flask + Gemini API.",
-  "permissions": ["scripting", "activeTab"],
-  "background": {
-    "service_worker": "background.js"
+  "description": "Sidebar that analyzes selected text using Flask + Hugging Face API.",
+  "permissions": ["activeTab", "scripting"],
+  "action": {
+    "default_popup": "popup.html"
   },
   "content_scripts": [
     {

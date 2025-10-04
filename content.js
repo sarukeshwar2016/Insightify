@@ -13,15 +13,22 @@ function createSidebar() {
             <button id="dr-close">✖</button>
         </div>
         <div class="dr-section">
-            <h3>📝 Simplified Meaning</h3>
+            <h3>Mode</h3>
+            <select id="dr-mode">
+                <option value="literary">Literary Mode</option>
+                <option value="article">Article Mode</option>
+            </select>
+        </div>
+        <div class="dr-section">
+            <h3>🔍 Literary Lens</h3>
             <p id="dr-meaning">Select some text to analyze...</p>
         </div>
         <div class="dr-section">
-            <h3>🌌 Metaphors</h3>
+            <h3>🌌 Symbolic Insights</h3>
             <p id="dr-metaphor">---</p>
         </div>
         <div class="dr-section">
-            <h3>🖤 Dark Theme</h3>
+            <h3>🖤 Thematic Depth</h3>
             <p id="dr-theme">---</p>
         </div>
     `;
@@ -29,17 +36,27 @@ function createSidebar() {
     document.body.appendChild(sidebar);
 
     const closeBtn = document.getElementById("dr-close");
-    if (closeBtn) {
-        closeBtn.addEventListener("click", () => {
-            sidebar.remove();
-        });
-    }
+    closeBtn.addEventListener("click", () => {
+        sidebar.remove();
+    });
+
+    // Change headings dynamically when mode changes
+    document.getElementById("dr-mode").addEventListener("change", () => {
+        const mode = document.getElementById("dr-mode").value;
+        document.querySelector("#dr-meaning").previousElementSibling.innerText =
+            mode === "literary" ? "🔍 Literary Lens" : "📝 Article Summary";
+        document.querySelector("#dr-metaphor").previousElementSibling.innerText =
+            mode === "literary" ? "🌌 Symbolic Insights" : "💡 Key Ideas";
+        document.querySelector("#dr-theme").previousElementSibling.innerText =
+            mode === "literary" ? "🖤 Thematic Depth" : "📌 Main Themes";
+    });
 }
 
 // -------------------------------
-// Analyze selected text (async)
+// Analyze selected text
 // -------------------------------
 async function analyzeText(selectedText) {
+    const mode = document.getElementById("dr-mode").value;
     const meaningEl = document.getElementById("dr-meaning");
     const metaphorEl = document.getElementById("dr-metaphor");
     const themeEl = document.getElementById("dr-theme");
@@ -52,24 +69,26 @@ async function analyzeText(selectedText) {
         const response = await fetch("http://127.0.0.1:5000/analyze", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ text: selectedText })
+            body: JSON.stringify({ text: selectedText, mode })
         });
 
         const data = await response.json();
-
         const analyzed = data.analyzed || "";
-        const error = data.error || "";
 
-        // Regex for 3 sections
+        // Split analysis into 3 sections
         const meaningMatch = analyzed.match(/1\. Simplified Meaning:\s*([\s\S]*?)2\./);
         const metaphorsMatch = analyzed.match(/2\. Metaphors(?:\/Symbols)?:\s*([\s\S]*?)3\./);
-        const themeMatch = analyzed.match(/3\. Dark\/Philosophical Themes:\s*([\s\S]*)/);
+        const themeMatch = analyzed.match(/3\. Philosophical Themes:\s*([\s\S]*)/);
 
-        if (meaningEl) meaningEl.innerText = meaningMatch ? meaningMatch[1].trim() : "No data";
-        if (metaphorEl) metaphorEl.innerText = metaphorsMatch ? metaphorsMatch[1].trim() : "---";
-        if (themeEl) themeEl.innerText = themeMatch ? themeMatch[1].trim() : "---";
-
-        if (error && meaningEl) meaningEl.innerText = "Error: " + error;
+        if (mode === "literary") {
+            meaningEl.innerText = meaningMatch ? meaningMatch[1].trim() : selectedText.slice(0, 100);
+            metaphorEl.innerText = metaphorsMatch ? metaphorsMatch[1].trim() : "---";
+            themeEl.innerText = themeMatch ? themeMatch[1].trim() : "---";
+        } else if (mode === "article") {
+            meaningEl.innerText = meaningMatch ? meaningMatch[1].trim() : selectedText.slice(0, 100);
+            metaphorEl.innerText = metaphorsMatch ? metaphorsMatch[1].trim() : "---";
+            themeEl.innerText = themeMatch ? themeMatch[1].trim() : "---";
+        }
 
     } catch (err) {
         if (meaningEl) meaningEl.innerText = "Server error: " + err;
@@ -89,3 +108,4 @@ document.addEventListener("mouseup", () => {
         analyzeText(selectedText);
     }
 });
+

@@ -2,21 +2,21 @@
     position: fixed;
     top: 0;
     right: 0;
-    width: 320px;
+    width: 350px;
     height: 100%;
     background: #1e1e1e;
     color: #f0f0f0;
     border-left: 2px solid #444;
-    box-shadow: -3px 0 6px rgba(0,0,0,0.4);
-    font-family: Arial, sans-serif;
-    padding: 10px;
+    box-shadow: -3px 0 8px rgba(0,0,0,0.5);
+    font-family: 'Segoe UI', Arial, sans-serif;
+    padding: 15px;
     z-index: 999999;
     overflow-y: auto;
 }
 
 #deepreader-sidebar h2 {
     margin: 0;
-    font-size: 18px;
+    font-size: 20px;
     color: #ffd369;
 }
 
@@ -35,14 +35,14 @@
 }
 
 .dr-section {
-    margin-top: 15px;
-    padding: 10px;
+    margin-top: 20px;
+    padding: 12px;
     background: #2a2a2a;
-    border-radius: 8px;
+    border-radius: 10px;
 }
 
 .dr-section h3 {
     margin-top: 0;
     color: #80dfff;
-    font-size: 15px;
+    font-size: 16px;
 }
